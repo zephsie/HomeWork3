@@ -1,7 +1,6 @@
 package com.zephie.jd2.classwork.core.entity;
 
 import java.util.Calendar;
-import java.util.Date;
 
 public class UserBuilder {
     private long id;
