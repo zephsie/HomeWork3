@@ -1,0 +1,75 @@
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+     http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+    <display-name>HW3</display-name>
+
+    <servlet>
+        <servlet-name>MainPage</servlet-name>
+        <jsp-file>/mainPage.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MainPage</servlet-name>
+        <url-pattern>/ui</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SignUp</servlet-name>
+        <jsp-file>/signUpForm.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SignUp</servlet-name>
+        <url-pattern>/ui/signUp</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SignIn</servlet-name>
+        <jsp-file>/singInForm.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SignIn</servlet-name>
+        <url-pattern>/ui/signIn</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Message</servlet-name>
+        <jsp-file>/messageForm.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Message</servlet-name>
+        <url-pattern>/ui/user/message</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Inbox</servlet-name>
+        <jsp-file>/inbox.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Inbox</servlet-name>
+        <url-pattern>/ui/user/chats</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Stats</servlet-name>
+        <jsp-file>/statistics.jsp</jsp-file>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Stats</servlet-name>
+        <url-pattern>/ui/admin/statistics</url-pattern>
+    </servlet-mapping>
+
+
+
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+</web-app>
