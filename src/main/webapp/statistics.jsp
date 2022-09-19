@@ -3,10 +3,8 @@
 <%@ page import="com.zephie.jd2.classwork.controllers.listeners.SessionCounter" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<% long usersTotal = UserService.getInstance().numberOfUsers(); %>
-<% long messagesTotal = MessageService.getInstance().numberOfMessages(); %>
-<% request.setAttribute("usersTotal", usersTotal); %>
-<% request.setAttribute("messagesTotal", messagesTotal); %>
+<% request.setAttribute("usersTotal", UserService.getInstance().numberOfUsers()); %>
+<% request.setAttribute("messagesTotal", MessageService.getInstance().numberOfMessages()); %>
 <% request.setAttribute("usersActive", SessionCounter.getSessionCount()); %>
 <html>
 <head>
