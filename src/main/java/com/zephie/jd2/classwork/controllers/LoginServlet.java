@@ -31,6 +31,6 @@ public class LoginServlet extends HttpServlet {
             throw new IllegalArgumentException("User not found");
         }
 
-        resp.sendRedirect(req.getContextPath() + "/ui");
+        resp.sendRedirect(req.getContextPath() + "/ui/user/message");
     }
 }
