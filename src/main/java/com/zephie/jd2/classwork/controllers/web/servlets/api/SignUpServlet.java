@@ -1,4 +1,4 @@
-package com.zephie.jd2.classwork.controllers.web.servlets.process;
+package com.zephie.jd2.classwork.controllers.web.servlets.api;
 
 import com.zephie.jd2.classwork.core.entity.UserBuilder;
 import com.zephie.jd2.classwork.services.UserService;
@@ -13,7 +13,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@WebServlet(name = "RegisterServlet", urlPatterns = "/api/user")
+@WebServlet(name = "SignUpServlet", urlPatterns = "/api/user")
 public class SignUpServlet extends HttpServlet {
     private final IUserService artistService = UserService.getInstance();
 

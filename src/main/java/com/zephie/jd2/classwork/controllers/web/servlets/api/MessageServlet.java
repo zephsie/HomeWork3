@@ -1,4 +1,4 @@
-package com.zephie.jd2.classwork.controllers.web.servlets.process;
+package com.zephie.jd2.classwork.controllers.web.servlets.api;
 
 import com.zephie.jd2.classwork.core.entity.MessageBuilder;
 import com.zephie.jd2.classwork.core.entity.User;

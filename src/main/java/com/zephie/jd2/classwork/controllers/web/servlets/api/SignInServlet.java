@@ -1,4 +1,4 @@
-package com.zephie.jd2.classwork.controllers.web.servlets.process;
+package com.zephie.jd2.classwork.controllers.web.servlets.api;
 
 import com.zephie.jd2.classwork.core.entity.User;
 import com.zephie.jd2.classwork.services.UserService;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
+@WebServlet(name = "SignInServlet", urlPatterns = "/api/login")
 public class SignInServlet extends HttpServlet {
     private final IUserService artistService = UserService.getInstance();
 

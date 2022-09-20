@@ -1,4 +1,4 @@
-package com.zephie.jd2.classwork.controllers.web.servlets.process;
+package com.zephie.jd2.classwork.controllers.web.servlets.api;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
