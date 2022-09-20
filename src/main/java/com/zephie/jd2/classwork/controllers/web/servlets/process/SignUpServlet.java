@@ -1,4 +1,4 @@
-package com.zephie.jd2.classwork.controllers;
+package com.zephie.jd2.classwork.controllers.web.servlets.process;
 
 import com.zephie.jd2.classwork.core.entity.UserBuilder;
 import com.zephie.jd2.classwork.services.UserService;
@@ -14,8 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 @WebServlet(name = "RegisterServlet", urlPatterns = "/api/user")
-public class RegisterServlet extends HttpServlet {
-    IUserService artistService = UserService.getInstance();
+public class SignUpServlet extends HttpServlet {
+    private final IUserService artistService = UserService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -43,6 +43,11 @@ public class RegisterServlet extends HttpServlet {
                 .setBirthDate(calendar)
                 .build());
 
-        resp.sendRedirect(req.getContextPath() + "/ui/signIn");
+        req.setAttribute("signInLink", "/ui/signIn");
+        req.setAttribute("signUpLink", "/ui/signUp");
+        req.setAttribute("sendMessageLink", "/ui/user/message");
+        req.setAttribute("inboxLink", "/ui/user/chats");
+
+        resp.sendRedirect(req.getContextPath() + "/ui");
     }
 }

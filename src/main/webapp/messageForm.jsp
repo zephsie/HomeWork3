@@ -31,5 +31,8 @@
 
 <br>
 
+<a href="${pageContext.request.contextPath}${mainPageLink}">Main page</a>
+<a href="${pageContext.request.contextPath}${inboxLink}">Inbox</a>
+
 </body>
 </html>

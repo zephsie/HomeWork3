@@ -1,4 +1,4 @@
-package com.zephie.jd2.classwork.controllers;
+package com.zephie.jd2.classwork.controllers.web.servlets.process;
 
 import com.zephie.jd2.classwork.core.entity.MessageBuilder;
 import com.zephie.jd2.classwork.core.entity.User;
@@ -9,20 +9,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "MessageServlet", urlPatterns = "/api/message")
 public class MessageServlet extends HttpServlet {
-    IMessageService messageService = MessageService.getInstance();
+    private final IMessageService messageService = MessageService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
+        User user = (User) req.getSession().getAttribute("user");
 
         String login = req.getParameter("login");
         String message = req.getParameter("message");
@@ -33,6 +31,6 @@ public class MessageServlet extends HttpServlet {
                 .setText(message)
                 .build());
 
-        resp.sendRedirect(req.getContextPath() + "/ui/user/chats");
+        resp.sendRedirect(req.getContextPath() + "/ui");
     }
 }

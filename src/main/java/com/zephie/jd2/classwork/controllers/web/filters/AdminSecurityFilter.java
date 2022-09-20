@@ -1,4 +1,4 @@
-package com.zephie.jd2.classwork.controllers.filters;
+package com.zephie.jd2.classwork.controllers.web.filters;
 
 import com.zephie.jd2.classwork.core.entity.User;
 
@@ -17,7 +17,7 @@ public class AdminSecurityFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
         HttpSession session = req.getSession();
-        if (session != null && session.getAttribute("user") != null) {
+        if (session.getAttribute("user") != null) {
             User user = (User) session.getAttribute("user");
             if (user.getRole() == User.Role.ADMIN) {
                 filterChain.doFilter(servletRequest, servletResponse);

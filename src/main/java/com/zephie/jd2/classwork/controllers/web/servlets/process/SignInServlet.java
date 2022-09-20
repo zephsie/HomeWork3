@@ -1,4 +1,4 @@
-package com.zephie.jd2.classwork.controllers;
+package com.zephie.jd2.classwork.controllers.web.servlets.process;
 
 import com.zephie.jd2.classwork.core.entity.User;
 import com.zephie.jd2.classwork.services.UserService;
@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
-public class LoginServlet extends HttpServlet {
-    IUserService artistService = UserService.getInstance();
+public class SignInServlet extends HttpServlet {
+    private final IUserService artistService = UserService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -31,6 +31,6 @@ public class LoginServlet extends HttpServlet {
             throw new IllegalArgumentException("User not found");
         }
 
-        resp.sendRedirect(req.getContextPath() + "/ui/user/message");
+        resp.sendRedirect(req.getContextPath() + "/ui");
     }
 }

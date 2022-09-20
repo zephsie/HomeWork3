@@ -31,5 +31,8 @@
 
 <br>
 
+<a href="${pageContext.request.contextPath}${signUpLink}">Sign up</a><br>
+<a href="${pageContext.request.contextPath}${mainPageLink}">Main page</a>
+
 </body>
 </html>

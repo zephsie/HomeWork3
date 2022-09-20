@@ -58,5 +58,8 @@
 
 <br>
 
+<a href="${pageContext.request.contextPath}${signInLink}">Sign in</a><br>
+<a href="${pageContext.request.contextPath}${mainPageLink}">Main page</a>
+
 </body>
 </html>

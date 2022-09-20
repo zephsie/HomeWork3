@@ -1,4 +1,4 @@
-package com.zephie.jd2.classwork.controllers.filters;
+package com.zephie.jd2.classwork.controllers.web.filters;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -15,7 +15,7 @@ public class UserSecurityFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
         HttpSession session = req.getSession();
-        if (session != null && session.getAttribute("user") != null) {
+        if (session.getAttribute("user") != null) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             res.sendRedirect(req.getContextPath() + "/ui/signIn");

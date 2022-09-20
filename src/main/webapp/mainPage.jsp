@@ -1,9 +1,5 @@
-<%@ page import="java.util.*" %>
-<%@ page import="com.zephie.jd2.classwork.core.entity.User" %>
-<%@ page import="com.zephie.jd2.classwork.services.UserService" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-<% request.setAttribute("users", UserService.getInstance().get()); %>
 <html>
 <head>
     <title>Messenger</title>
@@ -13,13 +9,24 @@
 <p>===========================================================</p>
 <p>Users:<br>
     <c:forEach items="${users}" var="entry">
-        User id: ${entry.id} <br>
-        User login: ${entry.login} <br>
-        User password: ${entry.password} <br>
-        Ussr first name: ${entry.firstName} <br>
-        User last name: ${entry.lastName} <br>
-        User role id: ${entry.role} <br><br><br><br><br>
+        User login: <c:out value="${entry.login}"/> <br>
+        User password: <c:out value="${entry.password}"/> <br>
+        Ussr first name: <c:out value="${entry.firstName}"/> <br>
+        User last name: <c:out value="${entry.lastName}"/> <br>
+        User role id: <c:out value="${entry.role}"/> <br><br><br>
     </c:forEach>
 </p>
+<p>===========================================================</p>
+
+<a href="${pageContext.request.contextPath}${signInLink}">Sign in</a><br>
+<a href="${pageContext.request.contextPath}${signUpLink}">Sign up</a><br>
+<a href="${pageContext.request.contextPath}${sendMessageLink}">Send a message</a><br>
+<a href="${pageContext.request.contextPath}${inboxLink}">Inbox</a><br>
+<a href="${pageContext.request.contextPath}${statisticsLink}">Stats</a>
+
+<form method="POST" action="${pageContext.request.contextPath}/api/logout">
+    <input type="submit" value="Sign out">
+</form>
+
 </body>
 </html>
