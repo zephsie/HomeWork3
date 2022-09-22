@@ -13,7 +13,7 @@ public class UserSecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
-        if (req.getSession().getAttribute("user") != null) {
+        if (req.getSession(false).getAttribute("user") != null) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             res.sendRedirect(req.getContextPath() + "/ui/signIn");

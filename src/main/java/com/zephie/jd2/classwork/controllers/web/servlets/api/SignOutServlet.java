@@ -4,7 +4,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "SignOutServlet", urlPatterns = "/api/logout")
@@ -15,9 +14,7 @@ public class SignOutServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        HttpSession session = req.getSession();
-
-        session.invalidate();
+        req.getSession(false).invalidate();
 
         resp.sendRedirect(req.getContextPath() + "/ui");
     }
