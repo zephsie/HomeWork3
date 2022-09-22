@@ -6,7 +6,6 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebFilter(urlPatterns = {"/ui/admin/*", "/api/admin/*"})
@@ -16,22 +15,21 @@ public class AdminSecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
-        HttpSession session = req.getSession();
-        if (session.getAttribute("user") != null) {
-            User user = (User) session.getAttribute("user");
+        User user = (User) req.getSession().getAttribute("user");
+
+        if (user != null) {
             if (user.getRole() == User.Role.ADMIN) {
                 filterChain.doFilter(servletRequest, servletResponse);
             } else {
                 throw new IllegalArgumentException("User is not admin");
             }
-            filterChain.doFilter(servletRequest, servletResponse);
         } else {
             res.sendRedirect(req.getContextPath() + "/ui/signIn");
         }
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
     }
 
     @Override
