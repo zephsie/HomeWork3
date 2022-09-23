@@ -15,8 +15,8 @@ public class UserStorage implements IUserStorage {
     private long id = 0L;
 
     private UserStorage() {
-        lock.lock();
         try {
+            lock.lock();
             data.add(UserBuilder.create()
                     .setId(id++)
                     .setLogin("admin")
@@ -34,8 +34,8 @@ public class UserStorage implements IUserStorage {
 
     @Override
     public Set<User> get() {
-        lock.lock();
         try {
+            lock.lock();
             return data;
         } finally {
             lock.unlock();
@@ -44,8 +44,8 @@ public class UserStorage implements IUserStorage {
 
     @Override
     public Optional<User> get(long id) {
-        lock.lock();
         try {
+            lock.lock();
             return data.stream()
                     .filter(item -> item.getId() == id)
                     .findFirst();
@@ -56,8 +56,8 @@ public class UserStorage implements IUserStorage {
 
     @Override
     public void save(User item) {
-        lock.lock();
         try {
+            lock.lock();
             item.setId(id++);
             item.setRegistrationDate(GregorianCalendar.getInstance());
             item.setRole(User.Role.USER);

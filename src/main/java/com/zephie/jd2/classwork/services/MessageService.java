@@ -70,7 +70,7 @@ public class MessageService implements IMessageService {
     }
 
     @Override
-    public long numberOfMessages() {
+    public long getNumberOfEntries() {
         return storage.get().size();
     }
 

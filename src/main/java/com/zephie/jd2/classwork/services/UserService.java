@@ -81,7 +81,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public long numberOfUsers() {
+    public long getNumberOfEntries() {
         return storage.get().size();
     }
 

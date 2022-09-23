@@ -24,8 +24,8 @@ public class StatisticsServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        req.setAttribute("numberOfUsers", userService.numberOfUsers());
-        req.setAttribute("numberOfMessages", messageService.numberOfMessages());
+        req.setAttribute("numberOfUsers", userService.getNumberOfEntries());
+        req.setAttribute("numberOfMessages", messageService.getNumberOfEntries());
         req.setAttribute("numberOfActiveUsers", AttributeListener.getCounter());
 
         req.getRequestDispatcher("/stats.jsp").forward(req, resp);

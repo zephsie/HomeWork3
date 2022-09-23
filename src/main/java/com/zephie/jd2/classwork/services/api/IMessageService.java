@@ -6,5 +6,5 @@ import java.util.Set;
 
 public interface IMessageService extends IEssenceService<Message> {
     Set<Message> get(String login);
-    long numberOfMessages();
+    long getNumberOfEntries();
 }

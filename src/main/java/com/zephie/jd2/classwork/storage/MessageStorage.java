@@ -21,8 +21,8 @@ public class MessageStorage implements IMessageStorage {
 
     @Override
     public Set<Message> get() {
-        lock.lock();
         try {
+            lock.lock();
             return data;
         } finally {
             lock.unlock();
@@ -31,8 +31,8 @@ public class MessageStorage implements IMessageStorage {
 
     @Override
     public Optional<Message> get(long id) {
-        lock.lock();
         try {
+            lock.lock();
             return data.stream()
                     .filter(item -> item.getId() == id)
                     .findFirst();
@@ -43,8 +43,8 @@ public class MessageStorage implements IMessageStorage {
 
     @Override
     public void save(Message item) {
-        lock.lock();
         try {
+            lock.lock();
             item.setId(id++);
             item.setDate(GregorianCalendar.getInstance());
             data.add(item);
