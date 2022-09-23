@@ -11,8 +11,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MessageService implements IMessageService {
-    private static final IMessageStorage storage = MessageStorage.getInstance();
-    private static final IUserService userService = UserService.getInstance();
+    private final IMessageStorage storage = MessageStorage.getInstance();
+    private final IUserService userService = UserService.getInstance();
 
     private static MessageService instance = null;
 
@@ -67,11 +67,6 @@ public class MessageService implements IMessageService {
         return storage.get().stream()
                 .filter(message -> message.getSender().equals(login) || message.getRecipient().equals(login))
                 .collect(Collectors.toSet());
-    }
-
-    @Override
-    public long getNumberOfEntries() {
-        return storage.get().size();
     }
 
     public static MessageService getInstance() {

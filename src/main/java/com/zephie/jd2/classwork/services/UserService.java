@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class UserService implements IUserService {
-    private static final IUserStorage storage = UserStorage.getInstance();
+    private final IUserStorage storage = UserStorage.getInstance();
 
     private static UserService instance = null;
 
@@ -78,11 +78,6 @@ public class UserService implements IUserService {
         return storage.get().stream()
                 .filter(item -> item.getLogin().equals(login) && item.getPassword().equals(password))
                 .findFirst();
-    }
-
-    @Override
-    public long getNumberOfEntries() {
-        return storage.get().size();
     }
 
     public static UserService getInstance() {

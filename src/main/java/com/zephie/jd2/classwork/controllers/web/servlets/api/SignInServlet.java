@@ -26,7 +26,7 @@ public class SignInServlet extends HttpServlet {
         Optional<User> user = artistService.login(login, password);
 
         if (user.isPresent()) {
-            req.getSession(false).setAttribute("user", user.get());
+            req.getSession(true).setAttribute("user", user.get());
         } else {
             throw new IllegalArgumentException("User not found");
         }

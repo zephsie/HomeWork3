@@ -14,7 +14,7 @@ public class SignOutServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        req.getSession(false).invalidate();
+        req.getSession(true).invalidate();
 
         resp.sendRedirect(req.getContextPath() + "/ui");
     }
