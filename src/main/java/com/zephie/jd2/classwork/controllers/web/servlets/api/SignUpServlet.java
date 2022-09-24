@@ -42,11 +42,6 @@ public class SignUpServlet extends HttpServlet {
 
         artistService.signUp(userDTOBuilder.build());
 
-        req.setAttribute("signInLink", "/ui/signIn");
-        req.setAttribute("signUpLink", "/ui/signUp");
-        req.setAttribute("sendMessageLink", "/ui/user/message");
-        req.setAttribute("inboxLink", "/ui/user/chats");
-
         resp.sendRedirect(req.getContextPath() + "/ui");
     }
 }
