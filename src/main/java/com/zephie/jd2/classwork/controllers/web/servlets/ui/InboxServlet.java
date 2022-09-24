@@ -20,7 +20,12 @@ public class InboxServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        User user = (User) req.getSession(true).getAttribute("user");
+        User user = (User) req.getSession().getAttribute("user");
+
+        if (user == null) {
+            throw new SecurityException("User is not authorized");
+        }
+
         req.setAttribute("messageSet", messageService.get(user.getLogin()));
 
         req.setAttribute("sendMessageLink", "/ui/user/message");

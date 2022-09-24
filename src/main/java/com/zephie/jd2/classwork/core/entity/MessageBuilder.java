@@ -1,13 +1,13 @@
 package com.zephie.jd2.classwork.core.entity;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 public class MessageBuilder {
     private long id;
     private String text;
     private String sender;
     private String recipient;
-    private Calendar date;
+    private LocalDateTime date;
 
     private MessageBuilder() {
     }
@@ -36,7 +36,7 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder setDate(Calendar date) {
+    public MessageBuilder setDate(LocalDateTime date) {
         this.date = date;
         return this;
     }

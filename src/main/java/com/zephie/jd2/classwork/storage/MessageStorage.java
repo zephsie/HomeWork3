@@ -3,12 +3,10 @@ package com.zephie.jd2.classwork.storage;
 import com.zephie.jd2.classwork.core.entity.Message;
 import com.zephie.jd2.classwork.storage.api.IMessageStorage;
 
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 public class MessageStorage implements IMessageStorage {
     private static MessageStorage instance = null;
@@ -46,8 +44,29 @@ public class MessageStorage implements IMessageStorage {
         try {
             lock.lock();
             item.setId(id++);
-            item.setDate(GregorianCalendar.getInstance());
             data.add(item);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public Collection<Message> get(String login) {
+        try {
+            lock.lock();
+            return data.stream()
+                    .filter(item -> item.getRecipient().equals(login))
+                    .collect(Collectors.toList());
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public long getCount() {
+        try {
+            lock.lock();
+            return data.size();
         } finally {
             lock.unlock();
         }

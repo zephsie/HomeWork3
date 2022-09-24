@@ -1,6 +1,7 @@
 package com.zephie.jd2.classwork.core.entity;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class UserBuilder {
     private long id;
@@ -8,8 +9,8 @@ public class UserBuilder {
     private String password;
     private String firstName;
     private String lastName;
-    private Calendar birthDate;
-    private Calendar registrationDate;
+    private LocalDate birthDate;
+    private LocalDateTime registrationDate;
     private User.Role role;
 
     private UserBuilder() {
@@ -40,12 +41,12 @@ public class UserBuilder {
         return this;
     }
 
-    public UserBuilder setBirthDate(Calendar birthDate) {
+    public UserBuilder setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
         return this;
     }
 
-    public UserBuilder setRegistrationDate(Calendar registrationDate) {
+    public UserBuilder setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
         return this;
     }

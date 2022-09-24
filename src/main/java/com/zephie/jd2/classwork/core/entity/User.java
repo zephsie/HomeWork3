@@ -1,6 +1,7 @@
 package com.zephie.jd2.classwork.core.entity;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class User {
@@ -9,11 +10,14 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private Calendar birthDate;
-    private Calendar registrationDate;
+    private LocalDate birthDate;
+    private LocalDateTime registrationDate;
     private Role role;
 
-    public User(Long id, String login, String password, String firstName, String lastName, Calendar birthDate, Calendar registrationDate, Role role) {
+    public User() {
+    }
+
+    public User(Long id, String login, String password, String firstName, String lastName, LocalDate birthDate, LocalDateTime registrationDate, Role role) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -68,19 +72,19 @@ public class User {
         this.lastName = lastName;
     }
 
-    public Calendar getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Calendar birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
-    public Calendar getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Calendar registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 

@@ -4,7 +4,12 @@ import com.zephie.jd2.classwork.core.entity.User;
 import com.zephie.jd2.classwork.core.entity.UserBuilder;
 import com.zephie.jd2.classwork.storage.api.IUserStorage;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -23,8 +28,8 @@ public class UserStorage implements IUserStorage {
                     .setPassword("admin")
                     .setFirstName("Admin")
                     .setLastName("Admin")
-                    .setBirthDate(new GregorianCalendar(2003, Calendar.JANUARY, 1))
-                    .setRegistrationDate(GregorianCalendar.getInstance())
+                    .setBirthDate(LocalDate.of(1990, 1, 1))
+                    .setRegistrationDate(LocalDateTime.now())
                     .setRole(User.Role.ADMIN)
                     .build());
         } finally {
@@ -33,7 +38,7 @@ public class UserStorage implements IUserStorage {
     }
 
     @Override
-    public Set<User> get() {
+    public Collection<User> get() {
         try {
             lock.lock();
             return data;
@@ -59,9 +64,29 @@ public class UserStorage implements IUserStorage {
         try {
             lock.lock();
             item.setId(id++);
-            item.setRegistrationDate(GregorianCalendar.getInstance());
-            item.setRole(User.Role.USER);
             data.add(item);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public long getCount() {
+        try {
+            lock.lock();
+            return data.size();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    @Override
+    public Optional<User> get(String login) {
+        try {
+            lock.lock();
+            return data.stream()
+                    .filter(item -> item.getLogin().equals(login))
+                    .findFirst();
         } finally {
             lock.unlock();
         }

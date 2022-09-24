@@ -1,15 +1,18 @@
 package com.zephie.jd2.classwork.core.entity;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
 
 public class Message {
     private long id;
     private String text;
     private String sender;
     private String recipient;
-    private Calendar date;
+    private LocalDateTime date;
 
-    public Message(long id, String text, String sender, String recipient, Calendar date) {
+    public Message() {
+    }
+
+    public Message(long id, String text, String sender, String recipient, LocalDateTime date) {
         this.id = id;
         this.text = text;
         this.sender = sender;
@@ -49,11 +52,11 @@ public class Message {
         this.recipient = recipient;
     }
 
-    public Calendar getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Calendar date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }

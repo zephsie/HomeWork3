@@ -1,19 +1,18 @@
 package com.zephie.jd2.classwork.controllers.web.servlets.api;
 
-import com.zephie.jd2.classwork.core.entity.User;
-import com.zephie.jd2.classwork.services.UserService;
-import com.zephie.jd2.classwork.services.api.IUserService;
+import com.zephie.jd2.classwork.core.dto.UserLoginDTO;
+import com.zephie.jd2.classwork.services.AuthService;
+import com.zephie.jd2.classwork.services.api.IAuthService;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 @WebServlet(name = "SignInServlet", urlPatterns = "/api/login")
 public class SignInServlet extends HttpServlet {
-    private final IUserService artistService = UserService.getInstance();
+    private final IAuthService authService = AuthService.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -23,14 +22,7 @@ public class SignInServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        Optional<User> user = artistService.login(login, password);
-
-        if (user.isPresent()) {
-            req.getSession(true).setAttribute("user", user.get());
-        } else {
-            throw new IllegalArgumentException("User not found");
-        }
-
+        req.getSession().setAttribute("user", authService.login(new UserLoginDTO(login, password)));
         resp.sendRedirect(req.getContextPath() + "/ui");
     }
 }

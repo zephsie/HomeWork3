@@ -4,16 +4,18 @@ import com.zephie.jd2.classwork.services.api.IMessageService;
 import com.zephie.jd2.classwork.services.api.IStatsService;
 import com.zephie.jd2.classwork.services.api.IUserService;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class StatsService implements IStatsService {
-    private final IUserService userService = UserService.getInstance();
-    private final IMessageService messageService = MessageService.getInstance();
-    private final AtomicInteger counter = new AtomicInteger(0);
+    private final IUserService userService;
+    private final IMessageService messageService;
+    private final AtomicLong counter = new AtomicLong(0);
 
     private static StatsService instance = null;
 
     private StatsService() {
+        userService = UserService.getInstance();
+        messageService = MessageService.getInstance();
     }
 
     public static StatsService getInstance() {
@@ -23,20 +25,7 @@ public class StatsService implements IStatsService {
         return instance;
     }
 
-    @Override
-    public long getMessagesCount() {
-        return messageService.get().size();
-    }
 
-    @Override
-    public long getUsersCount() {
-        return userService.get().size();
-    }
-
-    @Override
-    public long getActiveUsersCount() {
-        return counter.get();
-    }
 
     public void incrementActiveUsersCount() {
         counter.incrementAndGet();
@@ -44,5 +33,20 @@ public class StatsService implements IStatsService {
 
     public void decrementActiveUsersCount() {
         counter.decrementAndGet();
+    }
+
+    @Override
+    public long getSessionCount() {
+        return counter.get();
+    }
+
+    @Override
+    public long messageCount() {
+        return messageService.getCount();
+    }
+
+    @Override
+    public long userCount() {
+        return userService.getCount();
     }
 }

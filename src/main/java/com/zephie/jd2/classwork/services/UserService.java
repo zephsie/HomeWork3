@@ -1,25 +1,28 @@
 package com.zephie.jd2.classwork.services;
 
+import com.zephie.jd2.classwork.core.dto.UserDTO;
 import com.zephie.jd2.classwork.core.entity.User;
+import com.zephie.jd2.classwork.core.entity.UserBuilder;
 import com.zephie.jd2.classwork.services.api.IUserService;
 import com.zephie.jd2.classwork.storage.UserStorage;
 import com.zephie.jd2.classwork.storage.api.IUserStorage;
 
-import java.time.Year;
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 
 public class UserService implements IUserService {
-    private final IUserStorage storage = UserStorage.getInstance();
+    private final IUserStorage storage;
 
     private static UserService instance = null;
 
     private UserService() {
+        storage = UserStorage.getInstance();
     }
 
     @Override
-    public Set<User> get() {
+    public Collection<User> get() {
         return storage.get();
     }
 
@@ -28,56 +31,53 @@ public class UserService implements IUserService {
         return storage.get(id);
     }
 
-    @Override
-    public void validate(User item) {
-        if (item == null) {
-            throw new IllegalStateException("No letter passed");
+    public void validate(UserDTO userDTO) {
+        if (userDTO == null) {
+            throw new IllegalStateException("User is null");
         }
 
-        if (storage.get().contains(item)) {
-            throw new IllegalStateException("User already exists");
+        StringBuilder errors = new StringBuilder();
+
+        if (userDTO.getLogin() == null || userDTO.getLogin().isBlank()) {
+            errors.append("Login is empty\n");
         }
 
-        if (item.getLogin() == null || item.getLogin().isBlank()) {
-            throw new IllegalStateException("Login is empty");
+        if (get(userDTO.getLogin()).isPresent()) {
+            errors.append("User exists\n");
         }
 
-        if (item.getPassword() == null || item.getPassword().isBlank()) {
-            throw new IllegalStateException("Password is empty");
+        if (userDTO.getPassword() == null || userDTO.getPassword().isBlank()) {
+            errors.append("Password is empty\n");
         }
 
-        if (item.getFirstName() == null || item.getFirstName().isBlank()) {
-            throw new IllegalStateException("First name is empty");
+        if (userDTO.getFirstName() == null || userDTO.getFirstName().isBlank()) {
+            errors.append("First name is empty\n");
         }
 
-        if (item.getLastName() == null || item.getLastName().isBlank()) {
-            throw new IllegalStateException("Last name is empty");
+        if (userDTO.getLastName() == null || userDTO.getLastName().isBlank()) {
+            errors.append("Last name is empty\n");
         }
 
-        if (item.getBirthDate() == null) {
-            throw new IllegalStateException("Birth date is empty");
+        if (userDTO.getBirthDate() == null) {
+            errors.append("Birth date is empty\n");
         }
 
-        if (item.getBirthDate().get(Calendar.YEAR) > Year.now().getValue()) {
-            throw new IllegalStateException("Birth date is in the future");
+        if (userDTO.getBirthDate().isAfter(ChronoLocalDate.from(LocalDateTime.now()))) {
+            errors.append("Birth date is in future\n");
         }
 
-        if (item.getBirthDate().get(Calendar.YEAR) < 1900) {
-            throw new IllegalStateException("Birth date is too old");
+        if (userDTO.getBirthDate().isBefore(ChronoLocalDate.from(LocalDateTime.now().minusYears(150)))) {
+            errors.append("Birth date is too old\n");
+        }
+
+        if (errors.length() != 0) {
+            throw new IllegalArgumentException(errors.toString());
         }
     }
 
     @Override
-    public void save(User item) {
-        validate(item);
-        storage.save(item);
-    }
-
-    @Override
-    public Optional<User> login(String login, String password) {
-        return storage.get().stream()
-                .filter(item -> item.getLogin().equals(login) && item.getPassword().equals(password))
-                .findFirst();
+    public long getCount() {
+        return storage.getCount();
     }
 
     public static UserService getInstance() {
@@ -85,5 +85,25 @@ public class UserService implements IUserService {
             instance = new UserService();
         }
         return instance;
+    }
+
+    @Override
+    public Optional<User> get(String login) {
+        return storage.get(login);
+    }
+
+    @Override
+    public void signUp(UserDTO userDTO) {
+        validate(userDTO);
+
+        storage.save(UserBuilder.create()
+                .setLogin(userDTO.getLogin())
+                .setPassword(userDTO.getPassword())
+                .setFirstName(userDTO.getFirstName())
+                .setLastName(userDTO.getLastName())
+                .setBirthDate(userDTO.getBirthDate())
+                .setRegistrationDate(LocalDateTime.now())
+                .setRole(User.Role.USER)
+                .build());
     }
 }

@@ -1,26 +1,30 @@
 package com.zephie.jd2.classwork.services;
 
+import com.zephie.jd2.classwork.core.dto.MessageDTO;
 import com.zephie.jd2.classwork.core.entity.Message;
+import com.zephie.jd2.classwork.core.entity.MessageBuilder;
 import com.zephie.jd2.classwork.services.api.IMessageService;
 import com.zephie.jd2.classwork.services.api.IUserService;
 import com.zephie.jd2.classwork.storage.MessageStorage;
 import com.zephie.jd2.classwork.storage.api.IMessageStorage;
 
+import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class MessageService implements IMessageService {
-    private final IMessageStorage storage = MessageStorage.getInstance();
-    private final IUserService userService = UserService.getInstance();
+    private final IMessageStorage storage;
+    private final IUserService userService;
 
     private static MessageService instance = null;
 
     private MessageService() {
+        storage = MessageStorage.getInstance();
+        userService = UserService.getInstance();
     }
 
     @Override
-    public Set<Message> get() {
+    public Collection<Message> get() {
         return storage.get();
     }
 
@@ -29,44 +33,50 @@ public class MessageService implements IMessageService {
         return storage.get(id);
     }
 
-    @Override
-    public void validate(Message item) {
-        if (item == null) {
-            throw new IllegalStateException("No letter passed");
+    public void validate(MessageDTO messageDTO) {
+        if (messageDTO == null) {
+            throw new IllegalStateException("Message is null");
         }
 
-        if (item.getSender() == null || item.getSender().isBlank()) {
-            throw new IllegalStateException("Sender is empty");
+        StringBuilder errors = new StringBuilder();
+
+        if (messageDTO.getSender() == null || messageDTO.getSender().isBlank()) {
+            errors.append("Sender is empty\n");
         }
 
-        if (item.getRecipient() == null || item.getRecipient().isBlank()) {
-            throw new IllegalStateException("Receiver is empty");
+        if (messageDTO.getRecipient() == null || messageDTO.getRecipient().isBlank() || userService.get(messageDTO.getRecipient()).isEmpty()) {
+            errors.append("No recipient found\n");
         }
 
-        if (userService.get().stream().noneMatch(user -> user.getLogin().equals(item.getSender()))) {
-            throw new IllegalStateException("Sender does not exist");
+        if (messageDTO.getText() == null || messageDTO.getText().isBlank()) {
+            errors.append("Text is empty\n");
         }
 
-        if (userService.get().stream().noneMatch(user -> user.getLogin().equals(item.getRecipient()))) {
-            throw new IllegalStateException("Receiver does not exist");
-        }
-
-        if (item.getText() == null || item.getText().isBlank()) {
-            throw new IllegalStateException("Text is empty");
+        if (errors.length() > 0) {
+            throw new IllegalArgumentException(errors.toString());
         }
     }
 
     @Override
-    public void save(Message item) {
-        validate(item);
-        storage.save(item);
+    public Collection<Message> get(String login) {
+        return storage.get(login);
     }
 
     @Override
-    public Set<Message> get(String login) {
-        return storage.get().stream()
-                .filter(message -> message.getSender().equals(login) || message.getRecipient().equals(login))
-                .collect(Collectors.toSet());
+    public void send(MessageDTO messageDTO) {
+        validate(messageDTO);
+
+        storage.save(MessageBuilder.create()
+                .setSender(messageDTO.getSender())
+                .setRecipient(messageDTO.getRecipient())
+                .setText(messageDTO.getText())
+                .setDate(LocalDateTime.now())
+                .build());
+    }
+
+    @Override
+    public long getCount() {
+        return storage.getCount();
     }
 
     public static MessageService getInstance() {

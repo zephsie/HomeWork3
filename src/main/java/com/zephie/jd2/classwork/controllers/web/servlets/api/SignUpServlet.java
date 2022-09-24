@@ -1,6 +1,6 @@
 package com.zephie.jd2.classwork.controllers.web.servlets.api;
 
-import com.zephie.jd2.classwork.core.entity.UserBuilder;
+import com.zephie.jd2.classwork.core.dto.UserDTOBuilder;
 import com.zephie.jd2.classwork.services.UserService;
 import com.zephie.jd2.classwork.services.api.IUserService;
 
@@ -9,9 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @WebServlet(name = "SignUpServlet", urlPatterns = "/api/user")
 public class SignUpServlet extends HttpServlet {
@@ -28,20 +27,20 @@ public class SignUpServlet extends HttpServlet {
         String lastName = req.getParameter("lastName");
         String birthDate = req.getParameter("birthDate");
 
-        Calendar calendar = Calendar.getInstance();
+        UserDTOBuilder userDTOBuilder = UserDTOBuilder.create();
+
         try {
-            calendar.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(birthDate));
-        } catch (ParseException e) {
-            throw new IllegalArgumentException("Birth date is invalid");
+            userDTOBuilder = userDTOBuilder.setBirthDate(LocalDate.parse(birthDate, DateTimeFormatter.ISO_LOCAL_DATE));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid date format");
         }
 
-        artistService.save(UserBuilder.create()
-                .setLogin(login)
+        userDTOBuilder = userDTOBuilder.setLogin(login)
                 .setPassword(password)
                 .setFirstName(firstName)
-                .setLastName(lastName)
-                .setBirthDate(calendar)
-                .build());
+                .setLastName(lastName);
+
+        artistService.signUp(userDTOBuilder.build());
 
         req.setAttribute("signInLink", "/ui/signIn");
         req.setAttribute("signUpLink", "/ui/signUp");
