@@ -81,7 +81,11 @@ public class MessageService implements IMessageService {
 
     public static MessageService getInstance() {
         if (instance == null) {
-            instance = new MessageService();
+            synchronized (MessageService.class) {
+                if (instance == null) {
+                    instance = new MessageService();
+                }
+            }
         }
         return instance;
     }

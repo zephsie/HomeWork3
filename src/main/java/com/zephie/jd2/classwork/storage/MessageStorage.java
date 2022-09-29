@@ -74,7 +74,11 @@ public class MessageStorage implements IMessageStorage {
 
     public static MessageStorage getInstance() {
         if (instance == null) {
-            instance = new MessageStorage();
+            synchronized (MessageStorage.class) {
+                if (instance == null) {
+                    instance = new MessageStorage();
+                }
+            }
         }
         return instance;
     }

@@ -33,7 +33,11 @@ public class AuthService implements IAuthService {
 
     public static AuthService getInstance() {
         if (instance == null) {
-            instance = new AuthService();
+            synchronized (AuthService.class) {
+                if (instance == null) {
+                    instance = new AuthService();
+                }
+            }
         }
         return instance;
     }

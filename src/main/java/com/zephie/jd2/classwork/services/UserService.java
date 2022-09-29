@@ -80,13 +80,6 @@ public class UserService implements IUserService {
         return storage.getCount();
     }
 
-    public static UserService getInstance() {
-        if (instance == null) {
-            instance = new UserService();
-        }
-        return instance;
-    }
-
     @Override
     public Optional<User> get(String login) {
         return storage.get(login);
@@ -105,5 +98,16 @@ public class UserService implements IUserService {
                 .setRegistrationDate(LocalDateTime.now())
                 .setRole(User.Role.USER)
                 .build());
+    }
+
+    public static UserService getInstance() {
+        if (instance == null) {
+            synchronized (UserService.class) {
+                if (instance == null) {
+                    instance = new UserService();
+                }
+            }
+        }
+        return instance;
     }
 }

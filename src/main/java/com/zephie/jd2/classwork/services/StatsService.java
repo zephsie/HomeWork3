@@ -18,15 +18,6 @@ public class StatsService implements IStatsService {
         messageService = MessageService.getInstance();
     }
 
-    public static StatsService getInstance() {
-        if (instance == null) {
-            instance = new StatsService();
-        }
-        return instance;
-    }
-
-
-
     public void incrementActiveUsersCount() {
         counter.incrementAndGet();
     }
@@ -48,5 +39,17 @@ public class StatsService implements IStatsService {
     @Override
     public long userCount() {
         return userService.getCount();
+    }
+
+
+    public static StatsService getInstance() {
+        if (instance == null) {
+            synchronized (StatsService.class) {
+                if (instance == null) {
+                    instance = new StatsService();
+                }
+            }
+        }
+        return instance;
     }
 }

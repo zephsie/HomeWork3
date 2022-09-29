@@ -94,7 +94,11 @@ public class UserStorage implements IUserStorage {
 
     public static UserStorage getInstance() {
         if (instance == null) {
-            instance = new UserStorage();
+            synchronized (UserStorage.class) {
+                if (instance == null) {
+                    instance = new UserStorage();
+                }
+            }
         }
         return instance;
     }
