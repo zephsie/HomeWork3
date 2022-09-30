@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 public class MessageStorage implements IMessageStorage {
-    private static MessageStorage instance = null;
+    private static volatile MessageStorage instance = null;
     private final Set<Message> data = new HashSet<>();
     private final Lock lock = new ReentrantLock();
     private long id = 0L;

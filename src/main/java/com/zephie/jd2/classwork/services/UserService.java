@@ -15,7 +15,7 @@ import java.util.Optional;
 public class UserService implements IUserService {
     private final IUserStorage storage;
 
-    private static UserService instance = null;
+    private static volatile UserService instance = null;
 
     private UserService() {
         storage = UserStorage.getInstance();

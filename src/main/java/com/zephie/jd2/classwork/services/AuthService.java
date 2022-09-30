@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class AuthService implements IAuthService {
 
-    private static AuthService instance;
+    private static volatile AuthService instance;
     private final IUserService userService;
 
     private AuthService() {

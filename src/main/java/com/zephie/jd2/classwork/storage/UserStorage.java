@@ -14,7 +14,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class UserStorage implements IUserStorage {
-    private static UserStorage instance = null;
+    private static volatile UserStorage instance = null;
     private final Set<User> data = new HashSet<>();
     private final Lock lock = new ReentrantLock();
     private long id = 0L;

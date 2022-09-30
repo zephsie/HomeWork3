@@ -11,7 +11,7 @@ public class StatsService implements IStatsService {
     private final IMessageService messageService;
     private final AtomicLong counter = new AtomicLong(0);
 
-    private static StatsService instance = null;
+    private static volatile StatsService instance = null;
 
     private StatsService() {
         userService = UserService.getInstance();

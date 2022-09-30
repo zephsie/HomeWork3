@@ -16,7 +16,7 @@ public class MessageService implements IMessageService {
     private final IMessageStorage storage;
     private final IUserService userService;
 
-    private static MessageService instance = null;
+    private static volatile MessageService instance = null;
 
     private MessageService() {
         storage = MessageStorage.getInstance();
